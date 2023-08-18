@@ -18,7 +18,8 @@ Luego mostrar el resultado y preguntar si desea realizar otra operacion o termin
 Utilizar punteros para el calculo de las operaciones. Libreria: #include <math.h>
 */
 int main() {
-	int a = 0, b = 0, *pa = &a, *pb = &b;
+	int a = 0, b = 0;
+	int *pa = &a, *pb = &b;
 	char opcion = ' ';
 	
 	printf("Ingrese un numero: ");
@@ -49,11 +50,11 @@ int main() {
 			break;
 		// potencia
 		case 'e':
-			printf("El resultado es: %d base: %d expo: %d", pow(*pa, *pb), *pa, *pb); // no toma bien el exponente
+			printf("El resultado es: %d base: %d expo: %d", pow(*pa, *pb), *pa, *pb);
 			break;
 		// raiz
 		case 'f':
-			printf("El resultado es:\n a: %d\n b: %d", sqrt(*pa), sqrt(*pb)); // no toma bien la base
+			printf("El resultado es:\n a: %d\n b: %d", sqrt(*pa), sqrt(*pb));
 			break;
 		// salir
 		case 's':
