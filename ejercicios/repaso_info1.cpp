@@ -5,8 +5,8 @@ using namespace std;
 
 #define ALUMNOS 5
 
-void generar(int [10][4]);
-int verificar(int [10][4], int, int *, int *, int *);
+void generar(int [][4]);
+int verificar(int [][4], int, int *, int *, int *);
 
 /*
 Desarrolle un programa para una academia de musica que permita gestionar la inscripcion de
@@ -105,7 +105,7 @@ int main() {
 		// ---------------------------------------------------------------------------------------------
 		case 'c': // calcular la recaudacion
 			for(int i=contador_mostrar; i<10; i++){
-				recaudacion += inscripcion[i][3];
+				recaudacion += inscripcion[i][3]; // no suma adecuadamente (suma solo del nivel 3)
 			}
 			printf("La recaudacion total es de: %d", recaudacion);
 			break;
