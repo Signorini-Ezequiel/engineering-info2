@@ -3,27 +3,29 @@
 #include <ctime>
 using namespace std;
 
-void generar(int [10][4]);
-int verificar(int [10][4], int, int *, int *, int *);
-
 #define ALUMNOS 5
+
+void generar(int [][4],int *);
+int verificar(int [][4], int, int *, int *, int *);
+
 /*
-Desarrolle un programa para una academia de musica que permita gestionar la inscripcion de alumnos a los cursos de guitarra de los diferentes niveles.
+Desarrolle un programa para una academia de musica que permita gestionar la inscripcion de
+alumnos a los cursos de guitarra de los diferentes niveles.
 Algunas consideraciones:
 
 niveles: principiantes (1), intermedios (2) y avanzados (3).  
-Cupo maximo de 5 alumnos (por curso)
-Los costos de matriculacion y mensuales de cada curso: $3000 principiantes, $4000 intermedios y $5000 avanzados. 
+cupo maximo de 5 alumnos (por curso)
+costos de matriculacion y mensuales de cada curso: $3000 principiantes, $4000 intermedios y $5000 avanzados. 
 si tiene promocion: descuento del 10% en su matricula.
 
 Declare e inicialice a cero un arreglo 10x4
-Luego crear una funcion para generar las inscripciones, teniendo en cuenta lo siguiente: 
-La columna numero de inscripcion: numeros consecutivos empezando por 1.
-La columna nivel del curso:       numeros aleatorios entre 1 y 3. Luego debe revisar que haya cupo suficiente para ese nivel, si no hay cupo se anula (se verifica en la funcion verificar)
-La columna promocion:             numeros aleatorios entre el 0 y 1. El cero es que no tiene promocion y 1 es que si tiene promocion.
-La columna monto total: 		  calcular el monto de la inscripcion segun el nivel y si tiene promocion.  
+Luego crear una funcion para generar las inscripciones, teniendo en cuenta lo siguiente: (contenido de columnas)
+numero de inscripcion: consecutivos empezando por 1.
+nivel del curso:       aleatorios entre 1 y 3. Luego debe revisar que haya cupo suficientepara ese nivel, si no hay cupo se anula (se verifica en la funcion verificar)
+promocion:             aleatorios entre 0 y 1. El cero es que no tiene promocion y 1 es que si tiene promocion
+monto total: 		  calcular el monto de la inscripcion segun el nivel y si tiene promocion
 
-menu se repite hasta que el usuario indique s de salir con las siguientes funciones: 
+menu se repite hasta que el usuario indique "s" de salir con las siguientes funciones: 
 Mostrar todas las inscripciones por nivel.
 Mostrar la cantidad de alumnos por cada nivel.
 Calcular la recaudacion de la academia de musica.
@@ -31,69 +33,149 @@ Calcular la recaudacion de la academia de musica.
 
 int main() {
 	srand(time(NULL));
-	int inscripcion[10][4] = {0};
+	int inscripcion[10][4] = {0}, alumnos_1=0, alumnos_2=0, alumnos_3=0, recaudacion=0;
+	char orden = ' ';
 	
-	generar(inscripcion[10][]);
+	generar(inscripcion, &recaudacion);
+
+	printf("\n Bienvenido/a al gestor de tu academia \n");
+
+	do
+	{
+		printf("\n----------------------------------------");
+		printf("\n a: Mostrar las inscripciones por nivel \n b: Mostrar la cantidad de alumnos por nivel \n c: Calcular la recaudacion de la academia \n s: salir\n");
+		printf("----------------------------------------\n\n");
+		printf("Que desea?: ");
+		scanf(" %c", &orden);
+
+		switch (orden)
+		{
+		// ---------------------------------------------------------------------------------------------
+		case 'a': // Mostrar inscripciones
+			printf("\nNivel 1\n");
+			for(int i=0; i<10; i++){
+				if(1 == inscripcion[i][1]){
+					printf("- numero: %d, promociona: %d, monto: %d \n", inscripcion[i][0], inscripcion[i][2], inscripcion[i][3]);
+				}
+			}
+
+			printf("\nNivel 2\n");
+			for(int i=0; i<10; i++){
+				if(2 == inscripcion[i][1]){
+					printf("- numero: %d, promociona: %d, monto: %d \n", inscripcion[i][0], inscripcion[i][2], inscripcion[i][3]);
+				}
+			}
+
+			printf("\nNivel 3\n");
+			for(int i=0; i<10; i++){
+				if(3 == inscripcion[i][1]){
+					printf("- numero: %d, promociona: %d, monto: %d \n", inscripcion[i][0], inscripcion[i][2], inscripcion[i][3]);
+				}
+			}
+			break;
+
+		// ---------------------------------------------------------------------------------------------
+		case 'b': // mostrar la cantidad de alumnos por nivel
+			// si es la primera vez que se ejecuta la opcion
+			if(0==alumnos_1 && 0==alumnos_2 && 0==alumnos_3){
+				for(int i=0; i<10; i++){
+					if(1 == inscripcion[i][1]){
+						alumnos_1 += 1;
+					}else{
+						if(2 == inscripcion[i][1]){
+							alumnos_2 += 1;
+						}else{
+							alumnos_3 += 1;
+						}
+					}
+				}
+			}
+
+			printf("Hay: \n - %d alumnos en el nivel 1 \n - %d alumnos en el nivel 2 \n - %d alumnos en el nivel 3\n", alumnos_1, alumnos_2, alumnos_3);
+			break;
+
+		// ---------------------------------------------------------------------------------------------
+		case 'c': // calcular la recaudacion
+			printf("La recaudacion total es de: $%d", recaudacion);
+			break;
+
+		// ---------------------------------------------------------------------------------------------
+		case 's':
+			printf("Fin del programa\n");
+			break;
+			
+		// ---------------------------------------------------------------------------------------------
+		default:
+			printf("Opcion desconocida\n");
+			break;
+		}
+	} while ('s' != orden);
+	
+
 	return 0;
 }
 
 
-void generar(int inscripcion[10][4]){
-	int disponible = 0, basico = 0, medio = 0, avanzado = 0;
-	for(int i = 1; i <= 10; i++){
+void generar(int inscripcion[10][4], int *recaudacion){
+	int basico = 0, medio = 0, avanzado = 0, correcto = 0;
+	for(int i = 0; i < 10; i++){
 		// numero de inscripcion
 		inscripcion[i][0] = i;
 		
 		// nivel del curso
 		inscripcion[i][1] = rand() %3+1;
 		
-		// promocion
-		inscripcion[i][2] = rand() %1;
-		
-		// monto total
-		// valor de la matricula
-		switch(inscripcion[i][1]){
-		case 1: // nivel 1
-			inscripcion[i][3] += 3000;
-			break;
-		case 2: // nivel 2
-			inscripcion[i][3] += 4000;
-			break;
-		case 3: // nivel 3
-			inscripcion[i][3] += 5000;
-			break;
-		}
-		// descuento
-		if(1 == inscripcion[i][2]){
-			inscripcion[i][3] -= inscripcion[i][3]*10/100; // le resto el 10%
-		}
-		
 		// verifico si esta vacante
-		disponible = verificar(inscripcion[10][], i, &basico, &medio, &avanzado);
-		if(0 == disponible){
-			inscripcion[i] = {0};
+		correcto = verificar(inscripcion, i, &basico, &medio, &avanzado);
+		if(0 == correcto){
+			inscripcion[i][1]=0;
+		}else{
+			// promocion
+			inscripcion[i][2] = rand() %2+0;
+			
+			// monto total
+			// valor de la matricula
+			switch(inscripcion[i][1]){
+			case 1: // nivel 1
+				inscripcion[i][3] = 3000;
+				break;
+			case 2: // nivel 2
+				inscripcion[i][3] = 4000;
+				break;
+			case 3: // nivel 3
+				inscripcion[i][3] = 5000;
+				break;
+			}
+			// descuento
+			if(1 == inscripcion[i][2]){
+				inscripcion[i][3] -= inscripcion[i][3]*10/100; // le resto el 10%
+			}
+			
+			*recaudacion += inscripcion[i][3];
 		}
 	}
 }
 
 
 int verificar(int inscripcion[10][4], int n, int * basico, int * medio, int * avanzado){
-	int nivel = inscripcion[n][1]; // nivel de curso (ultimo valor)
-	if(1 == nivel){
+	if(1 == inscripcion[n][1]){
 		if (ALUMNOS > *basico){
+			*basico += 1;
 			return 1; // esta disponible
 		} else{
 			return 0; // no esta disponible
 		}
 	} else {
-		if(2 == nivel){
+		if(2 == inscripcion[n][1]){
 			if (ALUMNOS > *medio){
+				*medio += 1;
 				return 1; // esta disponible
 			} else{
 				return 0; // no esta disponible
 			}
 		} else{
 			if (ALUMNOS > *avanzado){
+				*avanzado += 1;
 				return 1; // esta disponible
 			} else{
 				return 0; // no esta disponible
