@@ -3,8 +3,6 @@
 using namespace std;
 
 // Funciones
-void minuscula(char *);
-void mayuscula(char *);
 
 /*
 
