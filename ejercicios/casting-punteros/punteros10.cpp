@@ -7,6 +7,7 @@ Realice un programa que permita cargar 10 números enteros en un vector.
 Luego utilizando punteros calcule el promedio de ellos. Finalmente mostrar
 todos los valores y su promedio utilizando punteros.
 */
+
 int main() {
 	int v[10]={0}, *p=NULL, total=0;
 	p = v;
